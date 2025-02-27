@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 public class WeatherData
 {
     /** Guaranteed not to be null and to contain only non-null entries */
@@ -9,9 +11,12 @@ public class WeatherData
     */
     public void cleanData(double lower, double upper){ 
         for (int i = 0; i < temperatures.size(); i++){
-            if (temperatures.get(i) < lower || temperatures.get(i) > upper) temperatures.remove(i);
-            i--;
+            if (temperatures.get(i) < lower || temperatures.get(i) > upper) {
+                temperatures.remove(i);
+                i--;
+            }
         }
+        System.out.println(temperatures);
     }
 
     /**
@@ -20,11 +25,22 @@ public class WeatherData
     * Precondition: There is at least one heat wave in temperatures based on threshold.
     */
     public int longestHeatWave(double threshold){
-        return 3;
+        int maxCount = 0;
+        int count = 0;
+        for (double t : temperatures){
+            if (t > threshold) count++;
+            else {
+                if (count > maxCount) maxCount = count;
+                count = 0;
+            }
+        }
+        return maxCount;
     }
     
     // There may be instance variables, constructors, and methods that are not shown.
-    public WeatherData(double[] temps){
-        for (double t : temps) temperatures.add(t);
+    public WeatherData(ArrayList<Double> temps){
+        temperatures = temps;
     }
+
+    
 }
